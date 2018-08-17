@@ -1,6 +1,6 @@
 {
   "name": "karma-static-server",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Allow karma to also act as a static server.",
   "main": "index.js",
   "scripts": {
