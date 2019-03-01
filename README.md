@@ -1,5 +1,7 @@
 # karma-static-server
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/BrandonOCasey/karma-static-server.svg)](https://greenkeeper.io/)
+
 Use karma as a static server as well as a test runner!
 
 ## Installation
