@@ -12,16 +12,17 @@ const StaticServerMiddlewareFactory = function(config, logger) {
   }, (config.serveStatic || {}));
 
   if (options.log) {
-    log.info(`serving static files in ./${path.relative(process.cwd(), options.root)}`);
+    log.info(`serving static files in ${options.root}`);
   }
 
   const serve = serveStatic(options.root, options);
 
   return function(request, response, next) {
-
     if (options.log) {
-      request.addListener('end', () => {
-        log.info(`[${response.statusCode}] ${request.url}`);
+      response.addListener('finish', () => {
+        if (response.statusCode !== 404) {
+          log.info(`[${response.statusCode}] ${request.url}`);
+        }
       });
     }
     return serve(request, response, next);
