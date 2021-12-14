@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 const serveStatic = require('serve-static');
-const path = require('path');
 
 const StaticServerMiddlewareFactory = function(config, logger) {
   const log = logger.create('karma-static-server');
