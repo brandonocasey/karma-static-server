@@ -19,7 +19,7 @@ const StaticServerMiddlewareFactory = function(config, logger) {
         log.info(`[${response.statusCode}] ${request.url}`);
       });
     }
-    return serveHandler(request, response);
+    return serveHandler(request, response, {cleanUrls: false});
   };
 };
 
