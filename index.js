@@ -1,16 +1,22 @@
-/* eslint-disable no-console */
 const serveHandler = require('serve-handler');
+const {cowsay} = require('cowsayjs');
 
 const StaticServerMiddlewareFactory = function(config, logger) {
   const log = logger.create('karma-static-server');
   const options = Object.assign({
     root: config.basePath,
     // do not log during singleRun
-    log: config.singleRun ? false : true
-  }, (config.serveStatic || {}));
+    log: config.singleRun ? false : true,
+    // see https://www.npmjs.com/package/cowsayjs
+    getCowOptions: () => ({})
+  }, (config.staticServer || {}));
 
   if (options.log) {
-    log.info(`serving static files in ${options.root}`);
+    const serverUrl = `${config.protocol}//${config.hostname}:${config.port}`;
+    const cowOptions = Object.assign({message: `open ${serverUrl} for dev server`}, (options.getCowOptions(config) || {}));
+
+    log.info(`\n${cowsay(cowOptions)}`);
+
   }
 
   return function(request, response, next) {
@@ -19,7 +25,9 @@ const StaticServerMiddlewareFactory = function(config, logger) {
         log.info(`[${response.statusCode}] ${request.url}`);
       });
     }
-    return serveHandler(request, response, {symlinks: true, cleanUrls: false});
+    const cfg = {symlinks: true, cleanUrls: false};
+
+    return serveHandler(request, response, cfg);
   };
 };
 

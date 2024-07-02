@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/brandonocasey/karma-static-server",
   "dependencies": {
+    "cowsayjs": "2.0.0",
     "serve-handler": "6.1.5"
   },
   "devDependencies": {
