@@ -1,4 +1,4 @@
-const serveHandler = require('serve-handler');
+const serveStatic = require('serve-static');
 const {cowsay} = require('cowsayjs');
 
 const StaticServerMiddlewareFactory = function(config, logger) {
@@ -10,6 +10,8 @@ const StaticServerMiddlewareFactory = function(config, logger) {
     // see https://www.npmjs.com/package/cowsayjs
     getCowOptions: () => ({})
   }, (config.staticServer || {}));
+
+  const serve = serveStatic(options.root, {extensions: ['html', 'htm'], redirect: false});
 
   if (options.log) {
     const serverUrl = `${config.protocol}//${config.hostname}:${config.port}`;
@@ -25,9 +27,7 @@ const StaticServerMiddlewareFactory = function(config, logger) {
         log.info(`[${response.statusCode}] ${request.url}`);
       });
     }
-    const cfg = {symlinks: true, cleanUrls: false};
-
-    return serveHandler(request, response, cfg);
+    return serve(request, response, next);
   };
 };
 
